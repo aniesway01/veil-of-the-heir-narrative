@@ -22,6 +22,9 @@
   --warm: #d97706;
   --tag-cond: #a78bfa;
   --tag-default: rgba(255,255,255,0.06);
+  --tag-char: #f472b6;
+  --tag-loc: #4ade80;
+  --tag-action: #f97316;
   --radius: 10px;
   --shadow: 0 2px 12px rgba(0,0,0,0.4);
 }
@@ -66,13 +69,20 @@ body {
   0%, 100% { opacity: 0.5; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.08); }
 }
+.banner-accent-line {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), var(--warm), var(--accent), transparent);
+  opacity: 0.5;
+}
 .banner-top { display: flex; align-items: center; gap: 16px; position: relative; z-index: 1; }
 .banner-icon {
-  width: 52px; height: 52px;
+  width: 56px; height: 56px;
   border-radius: 14px;
   background: linear-gradient(135deg, var(--accent), var(--warm));
   display: flex; align-items: center; justify-content: center;
-  font-size: 24px;
+  font-size: 26px;
   flex-shrink: 0;
   box-shadow: 0 4px 20px rgba(168,85,247,0.35);
 }
@@ -82,10 +92,12 @@ body {
   color: #fff;
   letter-spacing: 0.5px;
 }
+.banner-text h1 .purple { color: var(--accent); text-shadow: 0 0 20px rgba(168,85,247,0.4); }
 .banner-text .subtitle {
   font-size: 12px;
   color: rgba(255,255,255,0.4);
   margin-top: 2px;
+  font-style: italic;
 }
 .banner-stats {
   display: flex; gap: 16px; flex-wrap: wrap;
@@ -129,6 +141,8 @@ body {
   color: var(--text);
   font-size: 13px;
   width: 240px;
+  flex-shrink: 1;
+  min-width: 140px;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .search-wrap .search-box { width: 100%; padding-left: 32px; }
@@ -145,78 +159,57 @@ body {
   gap: 10px;
 }
 .toggle-row {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  color: var(--text2);
-  cursor: pointer;
-  white-space: nowrap;
-  user-select: none;
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--text2);
+  cursor: pointer; white-space: nowrap; user-select: none;
 }
 .toggle-row input { accent-color: var(--accent); cursor: pointer; width: 14px; height: 14px; }
 .toggle-row:hover { color: var(--text); }
 .view-toggle { display: flex; gap: 3px; }
 .view-btn {
-  padding: 5px 12px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text2);
-  font-size: 11px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
+  padding: 5px 12px; border-radius: 6px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text2); font-size: 11px; cursor: pointer;
+  transition: all 0.2s; white-space: nowrap;
 }
 .view-btn:hover { background: var(--bg3); color: var(--text); }
 .view-btn.active {
-  background: var(--accent);
-  color: #fff;
+  background: var(--accent); color: #fff;
   border-color: var(--accent);
   box-shadow: 0 2px 8px rgba(168,85,247,0.35);
 }
+.filter-row { display: flex; gap: 4px; flex-wrap: wrap; }
+.filter-chip {
+  padding: 3px 10px; border-radius: 14px;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text2); font-size: 11px; cursor: pointer;
+  transition: all 0.15s; white-space: nowrap;
+}
+.filter-chip:hover { border-color: var(--text2); color: var(--text); }
+.filter-chip.active { background: var(--accent2-glow); border-color: var(--accent); color: var(--accent); }
 
 /* === Content === */
-.content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px 20px 60px;
-  scroll-behavior: smooth;
-}
+.content { flex: 1; overflow-y: auto; padding: 16px 20px 60px; scroll-behavior: smooth; }
 
 /* === Group Headers === */
 .group-header {
   width: 100%;
   background: linear-gradient(135deg, var(--bg3), var(--bg2));
-  padding: 14px 20px;
-  margin: 16px 0 4px 0;
-  border-radius: var(--radius);
-  position: sticky;
-  top: 0; z-index: 10;
-  cursor: pointer;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  padding: 14px 20px; margin: 16px 0 4px 0;
+  border-radius: var(--radius); position: sticky; top: 0; z-index: 10;
+  cursor: pointer; user-select: none;
+  display: flex; align-items: center; gap: 12px;
+  border: 1px solid var(--border); box-shadow: var(--shadow);
   transition: border-color 0.2s;
 }
 .group-header:first-child { margin-top: 0; }
 .group-header:hover { border-color: var(--accent); }
 .group-icon {
-  width: 36px; height: 36px;
-  border-radius: 10px;
+  width: 36px; height: 36px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 15px;
-  flex-shrink: 0;
+  font-size: 16px; flex-shrink: 0;
 }
-.group-arrow {
-  font-size: 10px;
-  color: var(--text3);
-  transition: transform 0.2s;
-  flex-shrink: 0;
-}
+.group-arrow { font-size: 10px; color: var(--text3); transition: transform 0.2s; flex-shrink: 0; }
 .group-arrow.open { transform: rotate(90deg); }
 .group-info { flex: 1; min-width: 0; }
 .group-header h2 {
@@ -224,9 +217,7 @@ body {
   margin: 0; border: none; padding: 0;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.group-header .group-name-en {
-  font-size: 11px; color: var(--text3); margin-top: 1px;
-}
+.group-header .group-name-en { font-size: 11px; color: var(--text3); margin-top: 1px; }
 .group-header .group-stats {
   font-size: 11px; color: var(--text2); flex-shrink: 0;
   display: flex; align-items: center; gap: 8px;
@@ -237,99 +228,86 @@ body {
 
 /* === Passage Cards === */
 .passage {
-  background: var(--card);
-  padding: 14px 18px;
-  margin: 4px 0;
-  border-radius: 8px;
-  border-left: 3px solid transparent;
-  transition: all 0.2s;
-  position: relative;
+  background: var(--card); padding: 14px 18px; margin: 4px 0;
+  border-radius: 8px; border-left: 3px solid transparent;
+  transition: all 0.2s; position: relative;
 }
-.passage:hover {
-  border-left-color: var(--accent);
-  background: var(--card-hover);
-}
-.passage-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-}
+.passage:hover { border-left-color: var(--accent); background: var(--card-hover); }
+.passage-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
 .passage-title {
-  font-size: 13px; font-weight: 600;
-  color: var(--accent);
+  font-size: 13px; font-weight: 600; color: var(--accent);
   flex: 1; min-width: 0;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.passage .pid {
-  font-size: 10px; color: var(--text3);
-  font-family: 'Consolas', monospace; flex-shrink: 0;
-}
+.passage .pid { font-size: 10px; color: var(--text3); font-family: 'Consolas', monospace; flex-shrink: 0; }
 .passage .tag-row { margin-bottom: 6px; display: flex; flex-wrap: wrap; gap: 3px; }
 .passage .tag {
-  display: inline-block;
-  padding: 1px 8px;
-  border-radius: 10px;
-  font-size: 10px;
-  font-weight: 500;
+  display: inline-block; padding: 1px 8px; border-radius: 10px;
+  font-size: 10px; font-weight: 500;
 }
 .tag-cond { background: rgba(167,139,250,0.12); color: var(--tag-cond); }
 .tag-default { background: rgba(255,255,255,0.06); color: var(--text2); }
-.passage .text {
-  font-size: 14px; line-height: 1.85;
-  color: var(--text);
-  white-space: pre-wrap; word-break: break-word;
+.tag-char { background: rgba(244,114,182,0.12); color: var(--tag-char); }
+.tag-loc { background: rgba(74,222,128,0.12); color: var(--tag-loc); }
+.tag-action { background: rgba(249,115,22,0.12); color: var(--tag-action); }
+.char-pills { margin-bottom: 6px; display: flex; gap: 4px; flex-wrap: wrap; }
+.char-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 10px;
+  font-size: 10px; font-weight: 600; cursor: pointer;
+  transition: transform 0.15s;
 }
+.char-pill:hover { transform: scale(1.05); }
+.passage .text { font-size: 14px; line-height: 1.85; color: var(--text); white-space: pre-wrap; word-break: break-word; }
+.passage .text p { margin-bottom: 6px; }
 .passage .text-en {
-  font-size: 12px; color: var(--text2);
-  margin-top: 8px; padding-top: 8px;
-  border-top: 1px dashed var(--border);
-  font-style: italic; line-height: 1.6;
-  white-space: pre-wrap;
-  max-height: 120px; overflow: hidden;
-  position: relative;
+  font-size: 12px; color: var(--text2); margin-top: 8px; padding-top: 8px;
+  border-top: 1px dashed var(--border); font-style: italic; line-height: 1.6;
+  white-space: pre-wrap; max-height: 120px; overflow: hidden; position: relative;
 }
 .passage .text-en.collapsed::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 40px;
-  background: linear-gradient(transparent, var(--card));
-  pointer-events: none;
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40px;
+  background: linear-gradient(transparent, var(--card)); pointer-events: none;
 }
 .passage .choices-row {
-  margin-top: 8px; padding-top: 8px;
-  border-top: 1px solid var(--border);
+  margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border);
   display: flex; flex-wrap: wrap; gap: 4px;
 }
 .choice-btn {
-  padding: 3px 10px;
-  border-radius: 14px;
-  background: var(--accent-glow);
-  border: 1px solid rgba(168,85,247,0.25);
-  color: var(--accent);
-  font-size: 11px;
-  cursor: default;
+  padding: 3px 10px; border-radius: 14px;
+  background: var(--accent-glow); border: 1px solid rgba(168,85,247,0.25);
+  color: var(--accent); font-size: 11px; cursor: pointer; transition: all 0.15s;
 }
+.choice-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* === Character/Scene View === */
+.char-section { margin: 12px 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.char-section-header {
+  padding: 14px 18px; background: var(--bg2);
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; user-select: none; transition: background 0.15s;
+}
+.char-section-header:hover { background: var(--bg3); }
+.char-section-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.char-section-info { flex: 1; min-width: 0; }
+.char-section-info h3 { font-size: 16px; font-weight: 600; color: #fff; }
+.char-section-info .meta { font-size: 12px; color: var(--text2); }
+.char-section-body { display: none; }
+.char-section-body.open { display: block; padding: 4px 8px 8px; }
 
 /* === States === */
-.loading {
-  text-align: center; padding: 80px 20px; color: var(--text2);
-}
+.loading { text-align: center; padding: 80px 20px; color: var(--text2); }
 .loading .spinner {
-  display: inline-block;
-  width: 36px; height: 36px;
-  border: 3px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin-bottom: 16px;
+  display: inline-block; width: 36px; height: 36px;
+  border: 3px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-.empty-state {
-  text-align: center; padding: 60px 20px;
-  color: var(--text2); font-size: 14px;
-}
+.empty-state { text-align: center; padding: 60px 20px; color: var(--text2); font-size: 14px; }
 
 /* === Scrollbar === */
 ::-webkit-scrollbar { width: 6px; }
@@ -337,17 +315,12 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-/* === Keyboard shortcut hint === */
+/* === Keyboard hint === */
 .kb-hint {
   position: fixed; bottom: 12px; right: 16px;
-  font-size: 10px; color: var(--text3);
-  pointer-events: none; z-index: 100;
+  font-size: 10px; color: var(--text3); pointer-events: none; z-index: 100;
 }
-.kb-hint kbd {
-  padding: 1px 4px; border-radius: 3px;
-  background: var(--bg2); border: 1px solid var(--border);
-  font-family: inherit;
-}
+.kb-hint kbd { padding: 1px 4px; border-radius: 3px; background: var(--bg2); border: 1px solid var(--border); font-family: inherit; }
 
 /* === Mobile === */
 @media (max-width: 768px) {
@@ -360,6 +333,7 @@ body {
   .search-box { width: 100%; }
   .toolbar-right { margin-left: 0; width: 100%; flex-wrap: wrap; justify-content: center; }
   .view-toggle { width: 100%; justify-content: center; }
+  .filter-row { width: 100%; justify-content: center; }
   .group-header { padding: 10px 14px; }
   .group-header h2 { font-size: 15px; }
   .kb-hint { display: none; }
@@ -369,11 +343,12 @@ body {
 <body>
 <div class="app">
   <div class="game-banner">
+    <div class="banner-accent-line"></div>
     <div class="banner-top">
-      <div class="banner-icon">\u{1F451}</div>
+      <div class="banner-icon">&#x1F451;</div>
       <div class="banner-text">
-        <h1 id="gameTitle">繼承者的面紗</h1>
-        <div class="subtitle" id="gameSubtitle">Veil of the Heir | 奇幻冒險 RPG</div>
+        <h1>Veil of the <span class="purple">Heir</span></h1>
+        <div class="subtitle">繼承者的面紗 — 奇幻冒險 RPG 敘事地圖</div>
       </div>
     </div>
     <div class="banner-stats" id="bannerStats"></div>
@@ -384,102 +359,169 @@ body {
       <input type="text" class="search-box" id="searchBox" placeholder="搜尋段落、場景、內容...">
     </div>
     <div class="toolbar-right">
-      <label class="toggle-row">
-        <input type="checkbox" id="showZh" checked>
-        <span>中文</span>
-      </label>
-      <label class="toggle-row">
-        <input type="checkbox" id="showEn">
-        <span>英文</span>
-      </label>
-      <label class="toggle-row">
-        <input type="checkbox" id="showChoices" checked>
-        <span>選項</span>
-      </label>
-      <label class="toggle-row">
-        <input type="checkbox" id="showCond">
-        <span>條件</span>
-      </label>
+      <label class="toggle-row"><input type="checkbox" id="showZh" checked><span>中文</span></label>
+      <label class="toggle-row"><input type="checkbox" id="showEn"><span>英文</span></label>
+      <label class="toggle-row"><input type="checkbox" id="showChoices" checked><span>選項</span></label>
+      <label class="toggle-row"><input type="checkbox" id="showCond"><span>條件</span></label>
       <div class="view-toggle">
         <button class="view-btn active" data-view="narrative" id="viewNarrative">敘事</button>
-        <button class="view-btn" data-view="all" id="viewAll">全部段落</button>
+        <button class="view-btn" data-view="scene" id="viewScene">場景</button>
+        <button class="view-btn" data-view="character" id="viewChar">角色</button>
       </div>
     </div>
   </div>
 
+  <div id="filterBar" class="toolbar" style="display:none; padding:4px 16px; border-top:none;">
+    <div class="filter-row" id="filterRow"></div>
+  </div>
+
   <div class="content" id="content">
-    <div class="loading">
-      <div class="spinner"></div>
-      <div>載入敘事數據中...</div>
-    </div>
+    <div class="loading"><div class="spinner"></div><div>載入敘事數據中...</div></div>
   </div>
 </div>
 
-<div class="kb-hint">
-  <kbd>/</kbd> 搜尋 &nbsp; <kbd>1</kbd><kbd>2</kbd> 切換視圖 &nbsp; <kbd>Esc</kbd> 清除
-</div>
+<div class="kb-hint"><kbd>/</kbd> 搜尋 &nbsp; <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> 切換視圖</div>
 
 <script>
 // ============================================================
-// Veil of the Heir - Enhanced Narrative Viewer
+// Veil of the Heir — Enhanced Narrative Viewer (Full 3-View)
 // ============================================================
 
-var CHUNK_SIZE = 60;
-
-var GROUP_ICONS = {
+const CHUNK_SIZE = 60;
+const CHAR_COLORS = {};
+const GROUP_ICONS = {
   'goblin_scrounger_info (13 passages)': ['#84cc16', '\u{1F9CC}', '哥布林商人', '製作與交易'],
-  'valetia_session_1': ['#ec4899', '\u{1F48E}', 'Valetia 篇', '第一次會面'],
-  'female_underwear': ['#e879f9', '\u{1F457}', '女性內衣', '衣櫥系統'],
-  'female_wear_1': ['#a855f7', '\u{1F45A}', '女性服裝', '上衣/外衣'],
-  'female_shoes_1': ['#f472b6', '\u{1F462}', '女性鞋履', '鞋子選擇'],
-  'maera_sex_6': ['#f43f5e', '\u{1F525}', 'Maera 篇', '親密場景'],
+  'valetia_session_1':    ['#ec4899', '\u{1F48E}', 'Valetia 篇', '第一次會面'],
+  'female_underwear':     ['#e879f9', '\u{1F457}', '女性內衣', '衣櫥系統'],
+  'female_wear_1':        ['#a855f7', '\u{1F45A}', '女性服裝', '上衣/外衣'],
+  'female_shoes_1':       ['#f472b6', '\u{1F462}', '女性鞋履', '鞋子選擇'],
+  'maera_sex_6':          ['#f43f5e', '\u{1F525}', 'Maera 篇', '親密場景'],
   'north_forest_dawn (6 passages)': ['#22c55e', '\u{1F332}', '北方森林（黎明）', '黎明探索'],
   'north_forest_initial': ['#14b8a6', '\u{1F333}', '北方森林', '初始探索'],
   'marda_session_2_9 (2 passages)': ['#f59e0b', '\u{2694}', 'Marda 篇', '訓練與互動'],
-  'chest_2_chest_1': ['#d97706', '\u{1F4E6}', '寶箱', '物品與裝備'],
-  'hair_3_hair_4': ['#8b5cf6', '\u{1F487}', '髮型', '造型系統'],
-  'left_hand_mm_left_hand_ml': ['#6366f1', '\u{270B}', '左手裝備', '武器/飾品'],
+  'chest_2_chest_1':      ['#d97706', '\u{1F4E6}', '寶箱', '物品與裝備'],
+  'hair_3_hair_4':        ['#8b5cf6', '\u{1F487}', '髮型', '造型系統'],
+  'left_hand_mm_left_hand_ml':  ['#6366f1', '\u{270B}', '左手裝備', '武器/飾品'],
   'right_hand_ml_right_hand_mm': ['#3b82f6', '\u{1F91A}', '右手裝備', '武器/飾品'],
-  'right_leg_mm_right_leg_ml': ['#0ea5e9', '\u{1F9B5}', '腿部裝備', '護甲/配件']
+  'right_leg_mm_right_leg_ml':  ['#0ea5e9', '\u{1F9B5}', '腿部裝備', '護甲/配件']
 };
 
-// === State ===
-var DATA = null;
-var searchQuery = '';
-var showZh = true;
-var showEn = false;
-var showChoices = true;
-var showCond = false;
-var currentView = 'narrative';
-var openSections = new Set();
+let DATA = null;
+let searchQuery = '';
+let showZh = true;
+let showEn = false;
+let showChoices = true;
+let showCond = false;
+let currentView = 'narrative';
+let openSections = new Set();
+let charFilter = null;
 
-// === Data Loading ===
 async function loadData() {
   try {
-    var resp = await fetch('data/passages.json?v=' + Date.now());
+    const resp = await fetch('data/passages.json?v=' + Date.now());
     DATA = await resp.json();
     if (!DATA.meta.has_zh) {
       document.getElementById('showZh').parentElement.style.display = 'none';
-      showZh = false;
-      showEn = true;
+      showZh = false; showEn = true;
       document.getElementById('showEn').checked = true;
     }
     init();
   } catch(e) {
-    document.getElementById('content').innerHTML =
-      '<div class="empty-state">載入失敗: ' + e.message + '</div>';
+    document.getElementById('content').innerHTML = '<div class="empty-state">載入失敗: ' + e.message + '</div>';
   }
 }
 
-// === Extract choices from [[link]] syntax ===
+function renderBanner() {
+  const m = DATA.meta;
+  const total = m.total || DATA.passages.length;
+  const chars = m.characters || [];
+  const groups = (DATA.groups || []).length;
+  const zhCount = m.translated_count || DATA.passages.filter(p => p.content_zh).length;
+  const pct = total > 0 ? Math.round(zhCount / total * 100) : 0;
+  const totalChoices = m.total_choices || 0;
+
+  document.getElementById('bannerStats').innerHTML =
+    `<span class="stat-item"><b>${groups}</b> 分類</span>` +
+    `<span class="stat-item"><b>${total.toLocaleString()}</b> 段落</span>` +
+    (totalChoices > 0 ? `<span class="stat-item"><b>${totalChoices}</b> 選項</span>` : '') +
+    (chars.length > 0 ? `<span class="stat-item"><b>${chars.length}</b> 角色</span>` : '') +
+    `<span class="stat-item" style="color:${pct>=95?'#4ade80':'#fbbf24'}">${pct}% 已翻譯</span>`;
+}
+
+function getFiltered() {
+  let passages = DATA.passages;
+  if (charFilter) {
+    passages = passages.filter(p => (p.characters || []).includes(charFilter));
+  }
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    passages = passages.filter(p =>
+      (p.content_zh || '').toLowerCase().includes(q) ||
+      (p.content || '').toLowerCase().includes(q) ||
+      (p.name || '').toLowerCase().includes(q) ||
+      (p.title || '').toLowerCase().includes(q) ||
+      (p.group || '').toLowerCase().includes(q) ||
+      (p.tags || []).some(t => t.toLowerCase().includes(q)) ||
+      (p.characters || []).some(c => c.toLowerCase().includes(q))
+    );
+  }
+  return passages;
+}
+
+function filterByChar(name) {
+  charFilter = (charFilter === name) ? null : name;
+  updateFilterBar();
+  resetAndRender();
+}
+
+function updateFilterBar() {
+  const bar = document.getElementById('filterBar');
+  const row = document.getElementById('filterRow');
+  const chars = DATA.meta.characters || [];
+  if ((currentView === 'character' || charFilter) && chars.length > 0) {
+    bar.style.display = 'flex';
+    row.innerHTML = chars.map(c => {
+      const color = CHAR_COLORS[c] || '#64748b';
+      const active = charFilter === c ? ' active' : '';
+      return `<button class="filter-chip${active}" style="${charFilter===c?`background:${color}22;border-color:${color};color:${color}`:''}" onclick="filterByChar('${c}')">${c}</button>`;
+    }).join('') + (charFilter ? `<button class="filter-chip" style="color:var(--warm)" onclick="filterByChar(null);charFilter=null;updateFilterBar();resetAndRender();">清除</button>` : '');
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+function getPassageTitle(p) {
+  if (p.title && p.title.length > 2 && p.title.length < 80) return p.title;
+  const name = p.name || '';
+  if (name && !/^(g\d|passage_|p\d|#|\d+$)/.test(name) && name.length > 2 && name.length < 80) return name;
+  if (p.content_zh) {
+    const first = p.content_zh.replace(/<<[^>]*?>>/g, '').replace(/<[^>]*>/g, '').replace(/\[.*?\]/g, '').replace(/\/\*[\s\S]*?\*\//g, '').split(/[。！？\n]/)[0].trim();
+    if (first.length > 4) return first.length > 50 ? first.substring(0, 47) + '...' : first;
+  }
+  if (p.content) {
+    const first = p.content.replace(/<<[^>]*?>>/g, '').replace(/<[^>]*>/g, '').replace(/\/\*[\s\S]*?\*\//g, '').split(/[.!?\n]/)[0].trim();
+    if (first.length > 4) return first.length > 50 ? first.substring(0, 47) + '...' : first;
+  }
+  return name || 'Passage ' + p.pid;
+}
+
+function extractConditions(text) {
+  if (!text) return [];
+  const conds = [];
+  const re = /<<(?:else)?if\s+([^>]+?)>>/g;
+  let m;
+  while ((m = re.exec(text)) !== null) { conds.push(m[1].trim()); }
+  return conds;
+}
+
 function extractChoices(content) {
   if (!content) return [];
-  var choices = [];
-  var re = /\[\[([^\]|]*?)(?:\|([^\]]*?))?\]\]/g;
-  var m;
+  const choices = [];
+  const re = /\[\[([^\]|]*?)(?:\|([^\]]*?))?\]\]/g;
+  let m;
   while ((m = re.exec(content)) !== null) {
-    var text = m[1].trim();
-    var target = (m[2] || m[1]).trim();
+    const text = m[1].trim();
+    const target = (m[2] || m[1]).trim();
     if (text && text.length < 120 && text.length > 1) {
       choices.push({ text: text, target: target });
     }
@@ -487,84 +529,23 @@ function extractChoices(content) {
   return choices;
 }
 
-// === Banner ===
-function renderBanner() {
-  var m = DATA.meta;
-  var total = m.total || DATA.passages.length;
-  var groups = (DATA.groups || []).length;
-  var zhCount = m.translated_count || DATA.passages.filter(function(p) { return p.content_zh; }).length;
-  var pct = total > 0 ? Math.round(zhCount / total * 100) : 0;
-
-  document.getElementById('bannerStats').innerHTML =
-    '<span class="stat-item"><b>' + groups + '</b> 分類</span>' +
-    '<span class="stat-item"><b>' + total.toLocaleString() + '</b> 段落</span>' +
-    '<span class="stat-item" style="color:' + (pct >= 95 ? '#4ade80' : '#fbbf24') + '">' + pct + '% 已翻譯</span>';
-}
-
-// === Filtering ===
-function getFiltered() {
-  var passages = DATA.passages;
-  if (searchQuery) {
-    var q = searchQuery.toLowerCase();
-    passages = passages.filter(function(p) {
-      return (p.content_zh || '').toLowerCase().includes(q) ||
-        (p.content || '').toLowerCase().includes(q) ||
-        (p.name || '').toLowerCase().includes(q) ||
-        (p.group || '').toLowerCase().includes(q);
-    });
-  }
-  return passages;
-}
-
-// === Passage Title ===
-function getPassageTitle(p) {
-  if (p.title && p.title.length > 2 && p.title.length < 80) return p.title;
-  var name = p.name || '';
-  if (name && !/^(g\d|passage_|p\d|#|\d+$)/.test(name) && name.length > 2 && name.length < 80) return name;
-  if (p.content_zh) {
-    var first = p.content_zh.replace(/<<[^>]*?>>/g, '').replace(/<[^>]*>/g, '').replace(/\[.*?\]/g, '').replace(/\/\*[\s\S]*?\*\//g, '').split(/[。！？\n]/)[0].trim();
-    if (first.length > 4) return first.length > 50 ? first.substring(0, 47) + '...' : first;
-  }
-  if (p.content) {
-    var first = p.content.replace(/<<[^>]*?>>/g, '').replace(/<[^>]*>/g, '').replace(/\/\*[\s\S]*?\*\//g, '').split(/[.!?\n]/)[0].trim();
-    if (first.length > 4) return first.length > 50 ? first.substring(0, 47) + '...' : first;
-  }
-  return name || 'Passage ' + p.pid;
-}
-
-// === Condition Extraction ===
-function extractConditions(text) {
-  if (!text) return [];
-  var conds = [];
-  var re = /<<(?:else)?if\s+([^>]+?)>>/g;
-  var m;
-  while ((m = re.exec(text)) !== null) {
-    conds.push(m[1].trim());
-  }
-  return conds;
-}
-
-// === Text Formatting ===
 function formatText(s) {
   if (!s) return '';
-  var text = s;
-  // Strip CSS/HTML blocks
+  let text = s;
   text = text.replace(/<style[\s\S]*?<\/style>/gi, '');
   text = text.replace(/<script[\s\S]*?<\/script>/gi, '');
   text = text.replace(/<[^>]*>/g, ' ');
-  // Strip Twine macros
   text = text.replace(/<<[^>]*?>>/g, '');
-  // Strip [[link|target]]
   text = text.replace(/\[\[([^\]|]*?)(?:\|[^\]]*?)?\]\]/g, '');
-  // Strip comments and CSS
   text = text.replace(/\/\*[\s\S]*?\*\//g, '');
   text = text.replace(/\{[^}]*\}/g, '');
-  // Strip :: headers and [IF]/[/IF]
   text = text.replace(/^::\s+.*$/gm, '');
   text = text.replace(/\[(?:IF|\/IF|ELSE)\b[^\]]*\]/gi, '');
-  // Clean whitespace
+  text = text.replace(/==[^=]*?==/g, '');
+  text = text.replace(/\[OR\]/g, '\n');
   text = text.replace(/\n{3,}/g, '\n\n').replace(/[ \t]+/g, ' ').trim();
-  var html = escHtml(text);
+  let html = escHtml(text);
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   html = html.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>');
   return '<p>' + html + '</p>';
 }
@@ -574,244 +555,302 @@ function escHtml(s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-// === Passage HTML ===
+function tagClass(tag) {
+  const t = (tag || '').toLowerCase();
+  if (t.includes('location') || t.includes('room') || t.includes('forest')) return 'tag-loc';
+  if (t.includes('scene') || t.includes('act') || t.includes('session')) return 'tag-action';
+  if (t.includes('char') || t.includes('npc')) return 'tag-char';
+  return 'tag-default';
+}
+
 function passageHtml(p) {
-  var title = getPassageTitle(p);
-  var pid = p.pid != null ? '<span class="pid">#' + escHtml(String(p.pid)) + '</span>' : '';
+  const title = getPassageTitle(p);
+  const pid = p.pid != null ? `<span class="pid">#${p.pid}</span>` : '';
 
-  var tags = '';
-  if (p.tags && p.tags.length > 0) {
-    var uniqueTags = p.tags.filter(function(t) { return t !== p.group; });
-    if (uniqueTags.length > 0) {
-      tags = '<div class="tag-row">' + uniqueTags.map(function(t) {
-        return '<span class="tag tag-default">' + escHtml(t) + '</span>';
-      }).join('') + '</div>';
-    }
-  }
+  const tags = (p.tags && p.tags.length > 0)
+    ? `<div class="tag-row">${p.tags.map(t => `<span class="tag ${tagClass(t)}">${escHtml(t)}</span>`).join('')}</div>`
+    : '';
 
-  var condHtml = '';
+  const chars = (p.characters && p.characters.length > 0)
+    ? `<div class="char-pills">${p.characters.map(c => {
+        const color = CHAR_COLORS[c] || '#64748b';
+        return `<span class="char-pill" style="background:${color}18;color:${color};border:1px solid ${color}33" onclick="filterByChar('${c}')">${c}</span>`;
+      }).join('')}</div>`
+    : '';
+
+  let condHtml = '';
   if (showCond) {
-    var conds = extractConditions(p.content || '');
+    const conds = extractConditions(p.content || '');
     if (conds.length > 0) {
-      condHtml = '<div class="tag-row">' + conds.slice(0, 5).map(function(c) {
-        return '<span class="tag tag-cond" title="' + escHtml(c) + '">' + escHtml(c.length > 30 ? c.substring(0, 27) + '...' : c) + '</span>';
-      }).join('') + '</div>';
+      condHtml = `<div class="tag-row">${conds.slice(0, 5).map(c =>
+        `<span class="tag tag-cond" title="${escHtml(c)}">${escHtml(c.length > 30 ? c.substring(0,27)+'...' : c)}</span>`
+      ).join('')}</div>`;
     }
   }
 
-  var TEXT_LIMIT = 5000;
-  var textHtml = '';
+  const TEXT_LIMIT = 5000;
+  let textHtml = '';
   if (showZh && p.content_zh) {
-    var t = p.content_zh.length > TEXT_LIMIT ? p.content_zh.substring(0, TEXT_LIMIT) : p.content_zh;
-    var trunc = p.content_zh.length > TEXT_LIMIT ? '<div style="color:var(--tag-cond);font-size:11px;margin-top:4px">... 已截斷 (' + (p.content_zh.length/1000).toFixed(0) + 'K)</div>' : '';
-    textHtml += '<div class="text">' + formatText(t) + '</div>' + trunc;
+    const t = p.content_zh.length > TEXT_LIMIT ? p.content_zh.substring(0, TEXT_LIMIT) : p.content_zh;
+    const trunc = p.content_zh.length > TEXT_LIMIT ? `<div style="color:var(--tag-cond);font-size:11px;margin-top:4px">... 已截斷 (${(p.content_zh.length/1000).toFixed(0)}K)</div>` : '';
+    textHtml += `<div class="text">${formatText(t)}</div>${trunc}`;
   }
   if (showEn && p.content) {
-    var t = p.content.length > TEXT_LIMIT ? p.content.substring(0, TEXT_LIMIT) : p.content;
-    var trunc = p.content.length > TEXT_LIMIT ? '<div style="color:var(--tag-cond);font-size:11px;margin-top:4px">... truncated (' + (p.content.length/1000).toFixed(0) + 'K)</div>' : '';
+    const t = p.content.length > TEXT_LIMIT ? p.content.substring(0, TEXT_LIMIT) : p.content;
+    const trunc = p.content.length > TEXT_LIMIT ? `<div style="color:var(--tag-cond);font-size:11px;margin-top:4px">... truncated (${(p.content.length/1000).toFixed(0)}K)</div>` : '';
     if (showZh && p.content_zh) {
-      var isLong = t.length > 300;
-      textHtml += '<div class="text-en' + (isLong ? ' collapsed' : '') + '">' + formatText(t) + '</div>' + trunc;
+      const isLong = t.length > 300;
+      textHtml += `<div class="text-en${isLong ? ' collapsed' : ''}">${formatText(t)}</div>${trunc}`;
     } else {
-      textHtml += '<div class="text">' + formatText(t) + '</div>' + trunc;
+      textHtml += `<div class="text">${formatText(t)}</div>${trunc}`;
     }
   }
   if (!textHtml) {
     textHtml = p.content_zh
-      ? '<div class="text">' + formatText(p.content_zh.length > TEXT_LIMIT ? p.content_zh.substring(0, TEXT_LIMIT) : p.content_zh) + '</div>'
-      : p.content
-        ? '<div class="text">' + formatText(p.content.length > TEXT_LIMIT ? p.content.substring(0, TEXT_LIMIT) : p.content) + '</div>'
-        : '<div class="text" style="color:var(--text3)">(empty)</div>';
+      ? `<div class="text">${formatText(p.content_zh.length > TEXT_LIMIT ? p.content_zh.substring(0, TEXT_LIMIT) : p.content_zh)}</div>`
+      : p.content ? `<div class="text">${formatText(p.content.length > TEXT_LIMIT ? p.content.substring(0, TEXT_LIMIT) : p.content)}</div>`
+      : '<div class="text" style="color:var(--text3)">(empty)</div>';
   }
 
-  var choices = extractChoices(p.content || '');
-  var choicesHtml = '';
-  if (showChoices && choices.length > 0) {
-    var shown = choices.slice(0, 20);
-    var overflow = choices.length > 20 ? '<span style="font-size:11px;color:var(--text2)">+' + (choices.length - 20) + ' 更多</span>' : '';
-    choicesHtml = '<div class="choices-row">' + shown.map(function(c) {
-      return '<span class="choice-btn" title="-> ' + escHtml(c.target) + '">' + escHtml(c.text) + '</span>';
-    }).join('') + overflow + '</div>';
+  // Choices: use p.choices if available, else extract from content
+  const pChoices = (p.choices && p.choices.length > 0) ? p.choices : extractChoices(p.content || '');
+  let choicesHtml = '';
+  if (showChoices && pChoices.length > 0) {
+    const shown = pChoices.slice(0, 20);
+    const overflow = pChoices.length > 20 ? `<span style="font-size:11px;color:var(--text2)">+${pChoices.length - 20} 更多</span>` : '';
+    choicesHtml = `<div class="choices-row">${shown.map(c =>
+      `<span class="choice-btn" title="-> ${escHtml(c.target || '')}">${escHtml(c.text)}</span>`
+    ).join('')}${overflow}</div>`;
   }
 
-  return '<div class="passage">' +
-    '<div class="passage-header">' +
-      '<span class="passage-title">' + escHtml(title) + '</span>' +
-      pid +
-    '</div>' +
-    tags + condHtml + textHtml + choicesHtml +
-  '</div>';
+  return `<div class="passage">
+    <div class="passage-header"><span class="passage-title">${escHtml(title)}</span>${pid}</div>
+    ${tags}${condHtml}${chars}${textHtml}${choicesHtml}
+  </div>`;
 }
 
-// === Chunked Rendering ===
 function renderChunked(container, passages, startIdx) {
-  var end = Math.min(startIdx + CHUNK_SIZE, passages.length);
-  var html = '';
-  for (var i = startIdx; i < end; i++) {
-    html += passageHtml(passages[i]);
-  }
+  const end = Math.min(startIdx + CHUNK_SIZE, passages.length);
+  let html = '';
+  for (let i = startIdx; i < end; i++) html += passageHtml(passages[i]);
   container.insertAdjacentHTML('beforeend', html);
-
   if (end < passages.length) {
-    var sentinel = document.createElement('div');
-    sentinel.className = 'loading';
-    sentinel.style.padding = '16px';
-    sentinel.innerHTML = '<div style="font-size:11px;color:var(--text3)">載入更多 (' + end + '/' + passages.length + ')...</div>';
+    const sentinel = document.createElement('div');
+    sentinel.className = 'loading'; sentinel.style.padding = '16px';
+    sentinel.innerHTML = `<div style="font-size:11px;color:var(--text3)">載入更多 (${end}/${passages.length})...</div>`;
     container.appendChild(sentinel);
-
-    var obs = new IntersectionObserver(function(entries) {
-      if (entries[0].isIntersecting) {
-        obs.disconnect();
-        sentinel.remove();
-        renderChunked(container, passages, end);
-      }
+    const obs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { obs.disconnect(); sentinel.remove(); renderChunked(container, passages, end); }
     });
     obs.observe(sentinel);
   }
 }
 
-// === Narrative View ===
-function renderNarrativeView(passages) {
-  var content = document.getElementById('content');
-  content.innerHTML = '';
-  var groups = groupPassages(passages);
-
-  if (groups.length === 0) {
-    content.innerHTML = '<div class="empty-state">未找到匹配的段落</div>';
-    return;
-  }
-
-  groups.forEach(function(entry) {
-    var gName = entry[0], gPassages = entry[1];
-    var isOpen = openSections.has('g:' + gName);
-    var iconInfo = GROUP_ICONS[gName] || ['#64748b', gName.substring(0, 2).toUpperCase(), gName, ''];
-
-    var header = document.createElement('div');
-    header.className = 'group-header';
-    header.innerHTML =
-      '<div class="group-icon" style="background:' + iconInfo[0] + '22;color:' + iconInfo[0] + '">' + iconInfo[1] + '</div>' +
-      '<span class="group-arrow' + (isOpen ? ' open' : '') + '">&#9654;</span>' +
-      '<div class="group-info">' +
-        '<h2>' + escHtml(iconInfo[2]) + '</h2>' +
-        '<div class="group-name-en">' + escHtml(iconInfo[3] || gName) + '</div>' +
-      '</div>' +
-      '<div class="group-stats">' +
-        '<span><b>' + gPassages.length + '</b> 段落</span>' +
-      '</div>';
-
-    var body = document.createElement('div');
-    body.className = 'group-body' + (isOpen ? ' open' : '');
-
-    header.addEventListener('click', function() {
-      var nowOpen = body.classList.toggle('open');
-      header.querySelector('.group-arrow').classList.toggle('open', nowOpen);
-      if (nowOpen) {
-        openSections.add('g:' + gName);
-        if (!body.dataset.rendered) {
-          renderChunked(body, gPassages, 0);
-          body.dataset.rendered = '1';
-        }
-      } else {
-        openSections.delete('g:' + gName);
-      }
-    });
-
-    if (isOpen && !body.dataset.rendered) {
-      renderChunked(body, gPassages, 0);
-      body.dataset.rendered = '1';
-    }
-
-    content.appendChild(header);
-    content.appendChild(body);
-  });
-}
-
 function groupPassages(passages) {
-  var groups = new Map();
-  passages.forEach(function(p) {
-    var g = p.group || '(uncategorized)';
+  const groups = new Map();
+  passages.forEach(p => {
+    const g = p.group || '(uncategorized)';
     if (!groups.has(g)) groups.set(g, []);
     groups.get(g).push(p);
   });
   if (DATA.groups && DATA.groups.length > 0) {
-    var ordered = [];
-    var seen = new Set();
-    DATA.groups.forEach(function(gi) {
-      var key = gi.id || gi.name;
+    const ordered = []; const seen = new Set();
+    DATA.groups.forEach(gi => {
+      const key = gi.id || gi.name;
       if (groups.has(key)) { ordered.push([key, groups.get(key)]); seen.add(key); }
     });
-    groups.forEach(function(v, k) { if (!seen.has(k)) ordered.push([k, v]); });
+    groups.forEach((v, k) => { if (!seen.has(k)) ordered.push([k, v]); });
     return ordered;
   }
-  return Array.from(groups.entries()).sort(function(a, b) { return b[1].length - a[1].length; });
+  return Array.from(groups.entries()).sort((a, b) => b[1].length - a[1].length);
 }
 
-// === All View ===
-function renderAllView(passages) {
-  var content = document.getElementById('content');
+// === Narrative View ===
+function renderNarrativeView(passages) {
+  const content = document.getElementById('content');
   content.innerHTML = '';
-  if (passages.length === 0) {
-    content.innerHTML = '<div class="empty-state">未找到匹配的段落</div>';
-    return;
-  }
-  renderChunked(content, passages, 0);
+  const groups = groupPassages(passages);
+  if (groups.length === 0) { content.innerHTML = '<div class="empty-state">未找到匹配的段落</div>'; return; }
+  groups.forEach(([gName, gPassages]) => {
+    const isOpen = openSections.has('g:' + gName);
+    const iconInfo = GROUP_ICONS[gName] || ['#64748b', gName.substring(0, 2).toUpperCase(), gName, ''];
+    const header = document.createElement('div');
+    header.className = 'group-header';
+    header.innerHTML = `
+      <div class="group-icon" style="background:${iconInfo[0]}22;color:${iconInfo[0]}">${iconInfo[1]}</div>
+      <span class="group-arrow${isOpen ? ' open' : ''}">&#9654;</span>
+      <div class="group-info"><h2>${escHtml(iconInfo[2] || gName)}</h2><div class="group-name-en">${escHtml(iconInfo[3] || gName)}</div></div>
+      <div class="group-stats"><span><b>${gPassages.length}</b> 段落</span></div>`;
+    const body = document.createElement('div');
+    body.className = 'group-body' + (isOpen ? ' open' : '');
+    header.addEventListener('click', () => {
+      const nowOpen = body.classList.toggle('open');
+      header.querySelector('.group-arrow').classList.toggle('open', nowOpen);
+      if (nowOpen) { openSections.add('g:' + gName); if (!body.dataset.rendered) { renderChunked(body, gPassages, 0); body.dataset.rendered = '1'; } }
+      else { openSections.delete('g:' + gName); }
+    });
+    if (isOpen && !body.dataset.rendered) { renderChunked(body, gPassages, 0); body.dataset.rendered = '1'; }
+    content.appendChild(header); content.appendChild(body);
+  });
 }
 
-// === Render Dispatch ===
+// === Scene View ===
+function renderSceneView(passages) {
+  const content = document.getElementById('content');
+  content.innerHTML = '';
+  if (passages.length === 0) { content.innerHTML = '<div class="empty-state">未找到匹配的段落</div>'; return; }
+  const groups = groupPassages(passages);
+  groups.forEach(([gName, gPassages]) => {
+    const iconInfo = GROUP_ICONS[gName] || ['#64748b', gName.substring(0, 2).toUpperCase(), gName, ''];
+    const isOpen = openSections.has('sv:' + gName);
+    const charSubs = new Map();
+    gPassages.forEach(p => {
+      const chars = p.characters || [];
+      const key = chars.length > 0 ? chars[0] : '(general)';
+      if (!charSubs.has(key)) charSubs.set(key, []);
+      charSubs.get(key).push(p);
+    });
+    const header = document.createElement('div');
+    header.className = 'group-header';
+    header.innerHTML = `
+      <div class="group-icon" style="background:${iconInfo[0]}22;color:${iconInfo[0]}">${iconInfo[1]}</div>
+      <span class="group-arrow${isOpen ? ' open' : ''}">&#9654;</span>
+      <div class="group-info"><h2>${escHtml(iconInfo[2] || gName)}</h2><div class="group-name-en">${escHtml(iconInfo[3] || gName)} &middot; ${charSubs.size} 子場景</div></div>
+      <div class="group-stats"><b>${gPassages.length}</b> 段落</div>`;
+    const body = document.createElement('div');
+    body.className = 'group-body' + (isOpen ? ' open' : '');
+    header.addEventListener('click', () => {
+      const nowOpen = body.classList.toggle('open');
+      header.querySelector('.group-arrow').classList.toggle('open', nowOpen);
+      if (nowOpen) { openSections.add('sv:' + gName); if (!body.dataset.rendered) { renderSceneSubs(body, charSubs, gName); body.dataset.rendered = '1'; } }
+      else { openSections.delete('sv:' + gName); }
+    });
+    if (isOpen && !body.dataset.rendered) { renderSceneSubs(body, charSubs, gName); body.dataset.rendered = '1'; }
+    content.appendChild(header); content.appendChild(body);
+  });
+}
+
+function renderSceneSubs(container, charSubs, groupName) {
+  const sorted = Array.from(charSubs.entries()).sort((a, b) => { if (a[0] === '(general)') return 1; if (b[0] === '(general)') return -1; return b[1].length - a[1].length; });
+  sorted.forEach(([charName, subPassages]) => {
+    const secKey = 'ss:' + groupName + ':' + charName;
+    const isOpen = openSections.has(secKey);
+    const color = CHAR_COLORS[charName] || '#64748b';
+    const isGeneral = charName === '(general)';
+    const sub = document.createElement('div');
+    sub.className = 'char-section'; sub.style.margin = '4px 0';
+    sub.innerHTML = `<div class="char-section-header" style="padding:10px 14px">
+      <div class="char-section-avatar" style="background:${color};width:32px;height:32px;font-size:13px">${isGeneral ? '?' : charName[0]}</div>
+      <div class="char-section-info"><h3 style="font-size:14px">${isGeneral ? '一般場景' : escHtml(charName)}</h3><div class="meta">${subPassages.length} 段落</div></div>
+      <span class="group-arrow${isOpen ? ' open' : ''}">&#9654;</span></div>`;
+    const subBody = document.createElement('div');
+    subBody.className = 'char-section-body' + (isOpen ? ' open' : '');
+    sub.querySelector('.char-section-header').addEventListener('click', () => {
+      const nowOpen = subBody.classList.toggle('open');
+      sub.querySelector('.group-arrow').classList.toggle('open', nowOpen);
+      if (nowOpen) { openSections.add(secKey); if (!subBody.dataset.rendered) { renderChunked(subBody, subPassages, 0); subBody.dataset.rendered = '1'; } }
+      else { openSections.delete(secKey); }
+    });
+    if (isOpen && !subBody.dataset.rendered) { renderChunked(subBody, subPassages, 0); subBody.dataset.rendered = '1'; }
+    sub.appendChild(subBody); container.appendChild(sub);
+  });
+}
+
+// === Character View ===
+function renderCharacterView(passages) {
+  const content = document.getElementById('content');
+  content.innerHTML = '';
+  const charMap = new Map();
+  passages.forEach(p => { (p.characters || []).forEach(c => { if (!charMap.has(c)) charMap.set(c, []); charMap.get(c).push(p); }); });
+  const noChar = passages.filter(p => !(p.characters && p.characters.length > 0));
+  if (charMap.size === 0 && noChar.length === 0) { content.innerHTML = '<div class="empty-state">未找到匹配的段落</div>'; return; }
+  const sorted = Array.from(charMap.entries()).sort((a, b) => b[1].length - a[1].length);
+  sorted.forEach(([charName, charPassages]) => {
+    if (charFilter && charFilter !== charName) return;
+    const isOpen = openSections.has('c:' + charName);
+    const color = CHAR_COLORS[charName] || '#64748b';
+    const groups = {}; charPassages.forEach(p => { const g = p.group || 'other'; groups[g] = (groups[g] || 0) + 1; });
+    const iconInfo = Object.keys(groups).map(k => { const gi = GROUP_ICONS[k]; return gi ? gi[2] : k; });
+    const groupStr = iconInfo.join(' / ');
+    const section = document.createElement('div');
+    section.className = 'char-section';
+    section.innerHTML = `<div class="char-section-header"><div class="char-section-avatar" style="background:${color}">${charName[0]}</div>
+      <div class="char-section-info"><h3>${escHtml(charName)}</h3><div class="meta">${charPassages.length} 段落 | ${escHtml(groupStr)}</div></div>
+      <span class="group-arrow${isOpen ? ' open' : ''}">&#9654;</span></div>`;
+    const body = document.createElement('div');
+    body.className = 'char-section-body' + (isOpen ? ' open' : '');
+    section.querySelector('.char-section-header').addEventListener('click', () => {
+      const nowOpen = body.classList.toggle('open');
+      section.querySelector('.group-arrow').classList.toggle('open', nowOpen);
+      if (nowOpen) { openSections.add('c:' + charName); if (!body.dataset.rendered) { renderChunked(body, charPassages, 0); body.dataset.rendered = '1'; } }
+      else { openSections.delete('c:' + charName); }
+    });
+    if (isOpen && !body.dataset.rendered) { renderChunked(body, charPassages, 0); body.dataset.rendered = '1'; }
+    section.appendChild(body); content.appendChild(section);
+  });
+  if (noChar.length > 0 && !charFilter) {
+    const isOpen = openSections.has('c:__none');
+    const section = document.createElement('div');
+    section.className = 'char-section';
+    section.innerHTML = `<div class="char-section-header"><div class="char-section-avatar" style="background:var(--text3)">?</div>
+      <div class="char-section-info"><h3>無特定角色</h3><div class="meta">${noChar.length} 段落</div></div>
+      <span class="group-arrow${isOpen ? ' open' : ''}">&#9654;</span></div>`;
+    const body = document.createElement('div');
+    body.className = 'char-section-body' + (isOpen ? ' open' : '');
+    section.querySelector('.char-section-header').addEventListener('click', () => {
+      const nowOpen = body.classList.toggle('open');
+      section.querySelector('.group-arrow').classList.toggle('open', nowOpen);
+      if (nowOpen) { openSections.add('c:__none'); if (!body.dataset.rendered) { renderChunked(body, noChar, 0); body.dataset.rendered = '1'; } }
+      else { openSections.delete('c:__none'); }
+    });
+    if (isOpen && !body.dataset.rendered) { renderChunked(body, noChar, 0); body.dataset.rendered = '1'; }
+    section.appendChild(body); content.appendChild(section);
+  }
+}
+
 function resetAndRender() {
-  var passages = getFiltered();
+  document.querySelectorAll('[data-rendered]').forEach(el => { if (!el.classList.contains('open')) el.dataset.rendered = ''; });
+  const passages = getFiltered();
   switch (currentView) {
     case 'narrative': renderNarrativeView(passages); break;
-    case 'all': renderAllView(passages); break;
+    case 'scene': renderSceneView(passages); break;
+    case 'character': renderCharacterView(passages); break;
   }
 }
 
 function setActiveView(view) {
-  currentView = view;
-  openSections.clear();
-  document.querySelectorAll('.view-btn').forEach(function(b) { b.classList.remove('active'); });
-  var btnId = view === 'narrative' ? 'viewNarrative' : 'viewAll';
+  currentView = view; openSections.clear();
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  const btnId = view === 'narrative' ? 'viewNarrative' : view === 'scene' ? 'viewScene' : 'viewChar';
   document.getElementById(btnId).classList.add('active');
-  resetAndRender();
+  updateFilterBar(); resetAndRender();
 }
 
-// === Init ===
 function init() {
-  renderBanner();
-
-  var searchTimeout;
-  document.getElementById('searchBox').addEventListener('input', function(e) {
+  renderBanner(); updateFilterBar();
+  let searchTimeout;
+  document.getElementById('searchBox').addEventListener('input', e => {
     clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(function() {
-      searchQuery = e.target.value.trim();
-      openSections.clear();
-      resetAndRender();
-    }, 300);
+    searchTimeout = setTimeout(() => { searchQuery = e.target.value.trim(); openSections.clear(); resetAndRender(); }, 300);
   });
-
-  document.getElementById('showZh').addEventListener('change', function(e) { showZh = e.target.checked; openSections.clear(); resetAndRender(); });
-  document.getElementById('showEn').addEventListener('change', function(e) { showEn = e.target.checked; openSections.clear(); resetAndRender(); });
-  document.getElementById('showChoices').addEventListener('change', function(e) { showChoices = e.target.checked; openSections.clear(); resetAndRender(); });
-  document.getElementById('showCond').addEventListener('change', function(e) { showCond = e.target.checked; openSections.clear(); resetAndRender(); });
-
-  document.getElementById('viewNarrative').addEventListener('click', function() { setActiveView('narrative'); });
-  document.getElementById('viewAll').addEventListener('click', function() { setActiveView('all'); });
-
-  // Keyboard shortcuts
-  document.addEventListener('keydown', function(e) {
+  document.getElementById('showZh').addEventListener('change', e => { showZh = e.target.checked; openSections.clear(); resetAndRender(); });
+  document.getElementById('showEn').addEventListener('change', e => { showEn = e.target.checked; openSections.clear(); resetAndRender(); });
+  document.getElementById('showChoices').addEventListener('change', e => { showChoices = e.target.checked; openSections.clear(); resetAndRender(); });
+  document.getElementById('showCond').addEventListener('change', e => { showCond = e.target.checked; openSections.clear(); resetAndRender(); });
+  document.getElementById('viewNarrative').addEventListener('click', () => setActiveView('narrative'));
+  document.getElementById('viewScene').addEventListener('click', () => setActiveView('scene'));
+  document.getElementById('viewChar').addEventListener('click', () => setActiveView('character'));
+  document.addEventListener('keydown', e => {
     if (e.target.tagName === 'INPUT') return;
     if (e.key === '/') { e.preventDefault(); document.getElementById('searchBox').focus(); }
     if (e.key === '1') setActiveView('narrative');
-    if (e.key === '2') setActiveView('all');
+    if (e.key === '2') setActiveView('scene');
+    if (e.key === '3') setActiveView('character');
     if (e.key === 'Escape') {
       document.getElementById('searchBox').blur();
-      searchQuery = '';
-      document.getElementById('searchBox').value = '';
-      openSections.clear();
-      resetAndRender();
+      if (charFilter) { charFilter = null; updateFilterBar(); resetAndRender(); }
     }
   });
-
   resetAndRender();
 }
 
